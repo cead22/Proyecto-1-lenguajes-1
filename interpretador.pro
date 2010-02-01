@@ -1,4 +1,71 @@
-% nos
+% Gramatica
+% G: genero 
+% N: numero {plural, sing}
+
+preguntar --> p1.
+preguntar --> p2.
+
+% p1 = quien o quienes...
+p1(N,G) --> quien(N),verbo(N),articulo(G,N),relacion(G,N),persona.
+
+quien(plu) --> ['quienes'].
+quien(sin) --> ['quien'].
+
+verbo(plu) --> ['son'].
+verbo(sin) --> ['es'].
+
+articulo(masc,sin) --> ['el'].
+articulo(masc,plu) --> ['los'].
+articulo(fem,sin) --> ['la'].
+articulo(fem,plu) --> ['las'].
+
+relacion(masc,sing) --> ['esposo'].
+relacion(masc,sing) --> ['padre'].
+relacion(masc,sing) --> ['hermano'].
+relacion(masc,sing) --> ['abuelo'].
+relacion(masc,sing) --> ['hijo'].
+relacion(masc,sing) --> ['nieto'].
+relacion(masc,sing) --> ['tio'].
+relacion(masc,sing) --> ['sobrino'].
+relacion(masc,sing) --> ['cunado'].
+relacion(masc,sing) --> ['suegro'].
+
+relacion(fem,sing) --> ['esposa'].
+relacion(fem,sing) --> ['madre'].
+relacion(fem,sing) --> ['hermana'].
+relacion(fem,sing) --> ['abuela'].
+relacion(fem,sing) --> ['hija'].
+relacion(fem,sing) --> ['nieta'].
+relacion(fem,sing) --> ['tia'].
+relacion(fem,sing) --> ['sobrina'].
+relacion(fem,sing) --> ['cunada'].
+relacion(fem,sing) --> ['suegra'].
+
+relacion(masc,plu) --> ['esposos'].
+relacion(masc,plu) --> ['hermanos'].
+relacion(masc,plu) --> ['abuelos'].
+relacion(masc,plu) --> ['hijos'].
+relacion(masc,plu) --> ['nietos'].
+relacion(masc,plu) --> ['tios'].
+relacion(masc,plu) --> ['sobrinos'].
+relacion(masc,plu) --> ['cunados'].
+relacion(masc,plu) --> ['suegros'].
+
+relacion(fem,plu) --> ['esposas'].
+relacion(fem,plu) --> ['hermanas'].
+relacion(fem,plu) --> ['abuelas'].
+relacion(fem,plu) --> ['hijas'].
+relacion(fem,plu) --> ['nietas'].
+relacion(fem,plu) --> ['tias'].
+relacion(fem,plu) --> ['sobrinas'].
+relacion(fem,plu) --> ['cunadas'].
+relacion(fem,plu) --> ['suegras'].
+
+
+
+
+
+% Hechos
 persona(carlitos,masc).
 persona(pancho,masc).
 persona(mane,fem).
@@ -39,6 +106,8 @@ madre(mamama,miguel).
 madre(mamama,joy).
 madre(yamir,carlos).
 
+
+% Relaciones
 esposa(X,Y):- esposo(Y,X).
 hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
 hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
