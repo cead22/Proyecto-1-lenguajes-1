@@ -6,7 +6,11 @@ preguntar --> p1.
 preguntar --> p2.
 
 % p1 = quien o quienes...
-p1(N,G) --> quien(N),verbo(N),articulo(G,N),relacion(G,N),persona.
+p1 --> quien(N),verbo(N),articulo(G,N),relacion(G,N),['de'],persona.
+
+%p2 = es verdad...
+p2 --> ['es'],['verdad'],['que'],persona,verbo(N),articulo(G,N),relacion(G,N),['de'],persona.
+
 
 quien(plu) --> ['quienes'].
 quien(sin) --> ['quien'].
@@ -19,27 +23,27 @@ articulo(masc,plu) --> ['los'].
 articulo(fem,sin) --> ['la'].
 articulo(fem,plu) --> ['las'].
 
-relacion(masc,sing) --> ['esposo'].
-relacion(masc,sing) --> ['padre'].
-relacion(masc,sing) --> ['hermano'].
-relacion(masc,sing) --> ['abuelo'].
-relacion(masc,sing) --> ['hijo'].
-relacion(masc,sing) --> ['nieto'].
-relacion(masc,sing) --> ['tio'].
-relacion(masc,sing) --> ['sobrino'].
-relacion(masc,sing) --> ['cunado'].
-relacion(masc,sing) --> ['suegro'].
+relacion(masc,sin) --> ['esposo'].
+relacion(masc,sin) --> ['padre'].
+relacion(masc,sin) --> ['hermano'].
+relacion(masc,sin) --> ['abuelo'].
+relacion(masc,sin) --> ['hijo'].
+relacion(masc,sin) --> ['nieto'].
+relacion(masc,sin) --> ['tio'].
+relacion(masc,sin) --> ['sobrino'].
+relacion(masc,sin) --> ['cunado'].
+relacion(masc,sin) --> ['suegro'].
 
-relacion(fem,sing) --> ['esposa'].
-relacion(fem,sing) --> ['madre'].
-relacion(fem,sing) --> ['hermana'].
-relacion(fem,sing) --> ['abuela'].
-relacion(fem,sing) --> ['hija'].
-relacion(fem,sing) --> ['nieta'].
-relacion(fem,sing) --> ['tia'].
-relacion(fem,sing) --> ['sobrina'].
-relacion(fem,sing) --> ['cunada'].
-relacion(fem,sing) --> ['suegra'].
+relacion(fem,sin) --> ['esposa'].
+relacion(fem,sin) --> ['madre'].
+relacion(fem,sin) --> ['hermana'].
+relacion(fem,sin) --> ['abuela'].
+relacion(fem,sin) --> ['hija'].
+relacion(fem,sin) --> ['nieta'].
+relacion(fem,sin) --> ['tia'].
+relacion(fem,sin) --> ['sobrina'].
+relacion(fem,sin) --> ['cunada'].
+relacion(fem,sin) --> ['suegra'].
 
 relacion(masc,plu) --> ['esposos'].
 relacion(masc,plu) --> ['hermanos'].
@@ -60,6 +64,8 @@ relacion(fem,plu) --> ['tias'].
 relacion(fem,plu) --> ['sobrinas'].
 relacion(fem,plu) --> ['cunadas'].
 relacion(fem,plu) --> ['suegras'].
+
+persona --> ['carlitos'].
 
 
 
@@ -108,20 +114,20 @@ madre(yamir,carlos).
 
 
 % Relaciones
-esposa(X,Y):- esposo(Y,X).
-hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
-hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
-abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
-abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
-hijo(X,Y):- persona(X,masc), (padre(Y,X); madre(Y,X)).
-hija(X,Y):- persona(X,fem), (padre(Y,X); madre(Y,X)).
-nieto(X,Y):- hijo(X,Z), (hijo(Z,Y); hija(Z,Y)).
-nieta(X,Y):- hija(X,Z), (hijo(Z,Y); hija(Z,Y)).
-tio(X,Y):- hermano(X,Z), (padre(Z,Y) ; madre(Z,Y)).
-tia(X,Y):- hermana(X,Z), (padre(Z,Y) ; madre(Z,Y)).
-sobrino(X,Y):- hijo(X,Z), (hermano(Z,Y); hermana(Z,Y)).
-sobrina(X,Y):- hija(X,Z), (hermano(Z,Y); hermana(Z,Y)).
-cunado(X,Y):- (esposo(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermano(X,H), (esposo(H,Y); esposa(H,Y))).
-cunada(X,Y):- (esposa(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermana(X,H), (esposo(H,Y); esposa(H,Y))).
-suegro(X,Y):- padre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
-suegra(X,Y):- madre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
+%% esposa(X,Y):- esposo(Y,X).
+%% hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
+%% hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
+%% abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
+%% abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
+%% hijo(X,Y):- persona(X,masc), (padre(Y,X); madre(Y,X)).
+%% hija(X,Y):- persona(X,fem), (padre(Y,X); madre(Y,X)).
+%% nieto(X,Y):- hijo(X,Z), (hijo(Z,Y); hija(Z,Y)).
+%% nieta(X,Y):- hija(X,Z), (hijo(Z,Y); hija(Z,Y)).
+%% tio(X,Y):- hermano(X,Z), (padre(Z,Y) ; madre(Z,Y)).
+%% tia(X,Y):- hermana(X,Z), (padre(Z,Y) ; madre(Z,Y)).
+%% sobrino(X,Y):- hijo(X,Z), (hermano(Z,Y); hermana(Z,Y)).
+%% sobrina(X,Y):- hija(X,Z), (hermano(Z,Y); hermana(Z,Y)).
+%% cunado(X,Y):- (esposo(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermano(X,H), (esposo(H,Y); esposa(H,Y))).
+%% cunada(X,Y):- (esposa(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermana(X,H), (esposo(H,Y); esposa(H,Y))).
+%% suegro(X,Y):- padre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
+%% suegra(X,Y):- madre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
