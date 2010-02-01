@@ -6,15 +6,10 @@ persona(kiko,masc).
 persona(arturo,masc).
 persona(yamir,fem).
 persona(arturito,masc).
-persona(carlos,fem).
 persona(jose,masc).
 persona(carmen,fem).
 persona(joy,masc).
 persona(laura,fem).
-persona(arturo,masc).
-persona(yamir,fem).
-persona(arturito,masc).
-persona(carlos,fem).
 persona(papapa,masc).
 persona(mamama,fem).
 persona(miguel,masc).
@@ -22,14 +17,11 @@ persona(miguel,masc).
 esposo(kiko,mane).
 esposo(joy,laura).
 esposo(arturo,yamir).
-esposo(arturo,yamir).
 
 padre(kiko,carlitos).
 padre(kiko,pancho).
 padre(joy,jose).
 padre(joy,carmen).
-padre(arturo,arturito).
-padre(arturo,carlos).
 padre(arturo,arturito).
 padre(arturo,carlos).
 padre(papapa,kiko).
@@ -46,10 +38,9 @@ madre(mamama,arturo).
 madre(mamama,miguel).
 madre(mamama,joy).
 madre(yamir,carlos).
-madre(yamir,carlos).
 
 esposa(X,Y):- esposo(Y,X).
-hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
+hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
 hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
 abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
 abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
