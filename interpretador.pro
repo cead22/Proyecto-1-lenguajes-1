@@ -2,15 +2,21 @@
 % G: genero 
 % N: numero {plural, sing}
 
-preguntar --> p1.
-preguntar --> p2.
+preguntar --> quien_quienes.
+preguntar --> es_verdad.
 
 % p1 = quien o quienes...
-p1 --> quien(N),verbo(N),articulo(G,N),relacion(G,N),['de'],persona.
+quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N).
+rec(G,N) --> relacion(G,N),['de'],persona.
+rec(G,N) --> relacion(G,N),conector(GG,NN),rec(GG,NN).
 
 %p2 = es verdad...
-p2 --> ['es'],['verdad'],['que'],persona,verbo(N),articulo(G,N),relacion(G,N),['de'],persona.
+es_verdad --> ['es'],['verdad'],['que'],persona,verbo(N),articulo(G,N),rec(G,N).
 
+conector(masc,sin) --> ['del'].
+conector(masc,plu) --> ['de'],['los'].
+conector(fem,sin) --> ['de'],['la'].
+conector(fem,plu) --> ['de'],['las'].
 
 quien(plu) --> ['quienes'].
 quien(sin) --> ['quien'].

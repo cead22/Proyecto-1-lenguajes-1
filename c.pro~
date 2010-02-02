@@ -1,0 +1,3 @@
+preguntar([quienes,son,los,hijos,del,hermano,de,carlitos]n[]).
+preguntar([quien,es,la,madre,del,padre,de,carlitos],[]).
+preguntar([es,verdad,que,carlitos,es,el,suego,de,las,cunadas,de,carlitos],[]).
