@@ -6,7 +6,7 @@ preguntar --> quien_quienes.
 preguntar --> es_verdad.
 
 % p1 = quien o quienes...
-quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,L,X,Y), {write(Y)}.
+quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,L,X,Y), {write(L)}.
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).%, {write(R)}.
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),['de'],persona(X).%, {write([R])}.
 
@@ -33,28 +33,28 @@ articulo(fem,sin) --> [la].
 articulo(fem,plu) --> [las].
 
 
-relacion(masc,sin,esEsposo(X,Y),X,Y) --> [esposo], {esposo(Y,X)}.
-relacion(masc,sin,esPadre(X,Y),X,Y) --> [padre], {padre(Y,X)}.
+relacion(masc,sin,esEsposo(Y,X),X,Y) --> [esposo], {esposo(Y,X)}.
+relacion(masc,sin,esPadre(Y,X),X,Y) --> [padre], {padre(Y,X)}.
 relacion(masc,sin,esHermano(Y,X),X,Y) --> [hermano], {hermano(Y,X)}.
-relacion(masc,sin,esAbuelo(X,Y),X,Y) --> [abuelo], {abuelo(Y,X)}.
+relacion(masc,sin,esAbuelo(Y,X),X,Y) --> [abuelo], {abuelo(Y,X)}.
 relacion(masc,sin,esHijo(Y,X),X,Y) --> [hijo], {hijo(Y,X)}.
-relacion(masc,sin,esNieto(X,Y),X,Y) --> [nieto], {nieto(Y,X)}.
-relacion(masc,sin,esTio(X,Y),X,Y) --> [tio], {tio(Y,X)}.
-relacion(masc,sin,esSobrino(X,Y),X,Y) --> [sobrino], {sobrino(Y,X)}.
-relacion(masc,sin,esCunado(X,Y),X,Y) --> [cunado], {cunado(Y,X)}.
-relacion(masc,sin,esSuegro(X,Y),X,Y) --> [suegro], {suegro(Y,X)}.
+relacion(masc,sin,esNieto(Y,X),X,Y) --> [nieto], {nieto(Y,X)}.
+relacion(masc,sin,esTio(Y,X),X,Y) --> [tio], {tio(Y,X)}.
+relacion(masc,sin,esSobrino(Y,X),X,Y) --> [sobrino], {sobrino(Y,X)}.
+relacion(masc,sin,esCunado(Y,X),X,Y) --> [cunado], {cunado(Y,X)}.
+relacion(masc,sin,esSuegro(Y,X),X,Y) --> [suegro], {suegro(Y,X)}.
 
 
-relacion(fem,sin,esEsposa(X,Y),X,Y) --> [esposa], {esposa(Y,X)}.
-relacion(fem,sin,esMadre(X,Y),X,Y) --> [madre], {madre(Y,X)}.
+relacion(fem,sin,esEsposa(Y,X),X,Y) --> [esposa], {esposa(Y,X)}.
+relacion(fem,sin,esMadre(Y,X),X,Y) --> [madre], {madre(Y,X)}.
 relacion(fem,sin,esHermana(Y,X),X,Y) --> [hermana], {hermana(Y,X)}.
-relacion(fem,sin,esAbuela(X,Y),X,Y) --> [abuela], {abuela(Y,X)}.
+relacion(fem,sin,esAbuela(Y,X),X,Y) --> [abuela], {abuela(Y,X)}.
 relacion(fem,sin,esHija(Y,X),X,Y) --> [hija], {hija(Y,X)}.
-relacion(fem,sin,esNieta(X,Y),X,Y) --> [nieta], {nieta(Y,X)}.
-relacion(fem,sin,esTia(X,Y),X,Y) --> [tia], {tia(Y,X)}.
-relacion(fem,sin,esSobrina(X,Y),X,Y) --> [sobrina], {sobrina(Y,X)}.
-relacion(fem,sin,esCunada(X,Y),X,Y) --> [cunada], {cunada(Y,X)}.
-relacion(fem,sin,esSuegra(X,Y),X,Y) --> [suegra], {suegra(Y,X)}.
+relacion(fem,sin,esNieta(Y,X),X,Y) --> [nieta], {nieta(Y,X)}.
+relacion(fem,sin,esTia(Y,X),X,Y) --> [tia], {tia(Y,X)}.
+relacion(fem,sin,esSobrina(Y,X),X,Y) --> [sobrina], {sobrina(Y,X)}.
+relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada], {cunada(Y,X)}.
+relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra], {suegra(Y,X)}.
 
 %% relacion(fem,sin,X,Y) --> [esposa], {esposa(Y,X)}.
 %% relacion(fem,sin,X,Y) --> [madre], {madre(Y,X)}.
