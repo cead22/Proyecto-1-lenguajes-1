@@ -8,7 +8,7 @@ preguntar --> es_verdad.
 % p1 = quien o quienes...
 quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N).
 rec(G,N) --> relacion(G,N,X,Y),['de'],persona(X), {write(Y)}.
-rec(G,N) --> relacion(G,N),conector(GG,NN),rec(GG,NN).
+rec(G,N) --> relacion(G,N,X,Y),conector(GG,NN),rec(GG,NN), {write(Y)}.
 
 %p2 = es verdad...
 es_verdad --> [es],[verdad],[que],persona,verbo(N),articulo(G,N),rec(G,N).
@@ -36,24 +36,24 @@ articulo(fem,plu) --> [las].
 relacion(masc,sin,X,Y) --> [esposo], {esposo(Y,X)}.
 relacion(masc,sin,X,Y) --> [padre], {padre(Y,X)}.
 relacion(masc,sin,X,Y) --> [hermano], {hermano(Y,X)}.
-relacion(masc,sin) --> [abuelo].
-relacion(masc,sin) --> [hijo].
-relacion(masc,sin) --> [nieto].
-relacion(masc,sin) --> [tio].
-relacion(masc,sin) --> [sobrino].
-relacion(masc,sin) --> [cunado].
-relacion(masc,sin) --> [suegro].
+relacion(masc,sin,X,Y) --> [abuelo], {abuelo(Y,X)}.
+relacion(masc,sin,X,Y) --> [hijo], {hijo(Y,X)}.
+relacion(masc,sin,X,Y) --> [nieto], {nieto(Y,X)}.
+relacion(masc,sin,X,Y) --> [tio], {tio(Y,X)}.
+relacion(masc,sin,X,Y) --> [sobrino], {sobrino(Y,X)}.
+relacion(masc,sin,X,Y) --> [cunado], {cunado(Y,X)}.
+relacion(masc,sin,X,Y) --> [suegro], {suegro(Y,X)}.
 
 relacion(fem,sin,X,Y) --> [esposa], {esposa(Y,X)}.
 relacion(fem,sin,X,Y) --> [madre], {madre(Y,X)}.
-relacion(fem,sin) --> [hermana].
-relacion(fem,sin) --> [abuela].
-relacion(fem,sin) --> [hija].
-relacion(fem,sin) --> [nieta].
-relacion(fem,sin) --> [tia].
-relacion(fem,sin) --> [sobrina].
-relacion(fem,sin) --> [cunada].
-relacion(fem,sin) --> [suegra].
+relacion(fem,sin,X,Y) --> [hermana], {hermana(Y,X)}.
+relacion(fem,sin,X,Y) --> [abuela], {abuela(Y,X)}.
+relacion(fem,sin,X,Y) --> [hija], {hija(Y,X)}.
+relacion(fem,sin,X,Y) --> [nieta], {nieta(Y,X)}.
+relacion(fem,sin,X,Y) --> [tia], {tia(Y,X)}.
+relacion(fem,sin,X,Y) --> [sobrina], {sobrina(Y,X)}.
+relacion(fem,sin,X,Y) --> [cunada], {cunada(Y,X)}.
+relacion(fem,sin,X,Y) --> [suegra], {suegra(Y,X)}.
 
 relacion(masc,plu) --> [esposos].
 relacion(masc,plu) --> [hermanos].
