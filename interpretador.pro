@@ -6,7 +6,7 @@ preguntar --> quien_quienes.
 preguntar --> es_verdad.
 
 % p1 = quien o quienes...
-quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,L,X,Y), {write(L)}.
+quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y)}.
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).%, {write(R)}.
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),['de'],persona(X).%, {write([R])}.
 
@@ -108,6 +108,7 @@ persona(papapa,masc).
 persona(mamama,fem).
 persona(miguel,masc).
 
+esposo(papapa,mamama).
 esposo(kiko,mane).
 esposo(joy,laura).
 esposo(arturo,yamir).
@@ -137,7 +138,7 @@ madre(yamir,carlos).
 % Relaciones
 esposa(X,Y):- esposo(Y,X).
 hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
-hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))).
+hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
 abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
 abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
 hijo(X,Y):- persona(X,masc), (padre(Y,X); madre(Y,X)).
