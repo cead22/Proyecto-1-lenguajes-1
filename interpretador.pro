@@ -6,9 +6,9 @@ preguntar --> quien_quienes.
 preguntar --> es_verdad.
 
 % p1 = quien o quienes...
-quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N).
-rec(G,N) --> relacion(G,N,X,Y),['de'],persona(X), {write(Y)}.
-rec(G,N) --> relacion(G,N,X,Y),conector(GG,NN),rec(GG,NN), {write(Y)}.
+quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,L,X,Y), {write(L)}.
+rec(G,N,[R|L],X,Y) --> relacion(G,N,R,X,Y),conector(GG,NN),rec(GG,NN,L).%, {write(R)}.
+rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),['de'],persona(X).%, {write([R])}.
 
 %p2 = es verdad...
 es_verdad --> [es],[verdad],[que],persona,verbo(N),articulo(G,N),rec(G,N).
@@ -33,16 +33,16 @@ articulo(fem,sin) --> [la].
 articulo(fem,plu) --> [las].
 
 
-relacion(masc,sin,X,Y) --> [esposo], {esposo(Y,X)}.
-relacion(masc,sin,X,Y) --> [padre], {padre(Y,X)}.
-relacion(masc,sin,X,Y) --> [hermano], {hermano(Y,X)}.
-relacion(masc,sin,X,Y) --> [abuelo], {abuelo(Y,X)}.
-relacion(masc,sin,X,Y) --> [hijo], {hijo(Y,X)}.
-relacion(masc,sin,X,Y) --> [nieto], {nieto(Y,X)}.
-relacion(masc,sin,X,Y) --> [tio], {tio(Y,X)}.
-relacion(masc,sin,X,Y) --> [sobrino], {sobrino(Y,X)}.
-relacion(masc,sin,X,Y) --> [cunado], {cunado(Y,X)}.
-relacion(masc,sin,X,Y) --> [suegro], {suegro(Y,X)}.
+relacion(masc,sin,esEsposo(X,Y),X,Y) --> [esposo], {esposo(Y,X)}.
+relacion(masc,sin,esPadre(X,Y),X,Y) --> [padre], {padre(Y,X)}.
+relacion(masc,sin,esHermano(X,Y),X,Y) --> [hermano], {hermano(X,Y)}.
+relacion(masc,sin,esAbuelo(X,Y),X,Y) --> [abuelo], {abuelo(Y,X)}.
+relacion(masc,sin,esHijo(X,Y),X,Y) --> [hijo], {hijo(X,Y)}.
+relacion(masc,sin,esNieto(X,Y),X,Y) --> [nieto], {nieto(Y,X)}.
+relacion(masc,sin,esTio(X,Y),X,Y) --> [tio], {tio(Y,X)}.
+relacion(masc,sin,esSobrino(X,Y),X,Y) --> [sobrino], {sobrino(Y,X)}.
+relacion(masc,sin,esCunado(X,Y),X,Y) --> [cunado], {cunado(Y,X)}.
+relacion(masc,sin,esSuegro(X,Y),X,Y) --> [suegro], {suegro(Y,X)}.
 
 relacion(fem,sin,X,Y) --> [esposa], {esposa(Y,X)}.
 relacion(fem,sin,X,Y) --> [madre], {madre(Y,X)}.
