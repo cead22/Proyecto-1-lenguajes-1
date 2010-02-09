@@ -1,21 +1,30 @@
 % Gramatica
-% G: genero 
-% N: numero {plural, sing}
+% G/GG: genero 
+% N/NN: numero {plural, sing}
+% L/R: lista de relaciones encadenadas
+% X/Y: personas involucradas en la pregunta
+% Z: persona intermedia para resolver relaciones
+% P: persona que aparece en la pregunta
 
+% Preguntas que empiezan con quien/quienes
 preguntar --> quien_quienes.
+
+% Preguntas que empiezan con es verdad
 preguntar --> es_verdad.
 
-% p1 = quien o quienes...
+% Quien/Quienes...
+
 quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y)}.
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).
 
-%p2 = es verdad...
+% Es verdad...
 es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y), {write(R)}.
 
+% Devuelve en P el nombre parseado
 persona(P) --> [P].
 
-
+% Simbolos Terminales
 conector(masc,sin) --> [del].
 conector(masc,plu) --> [de],[los].
 conector(fem,sin) --> [de],[la].
@@ -32,7 +41,11 @@ articulo(masc,plu) --> [los].
 articulo(fem,sin) --> [la].
 articulo(fem,plu) --> [las].
 
+% Relaciones que se llevan en la lista
+% Los predicados entre llaves permiten
+% ir calculando a medida que se parsea
 
+% Masculinas y Singulares
 relacion(masc,sin,esEsposo(Y,X),X,Y) --> [esposo], {esposo(Y,X)}.
 relacion(masc,sin,esPadre(Y,X),X,Y) --> [padre], {padre(Y,X)}.
 relacion(masc,sin,esHermano(Y,X),X,Y) --> [hermano], {hermano(Y,X)}.
@@ -44,7 +57,7 @@ relacion(masc,sin,esSobrino(Y,X),X,Y) --> [sobrino], {sobrino(Y,X)}.
 relacion(masc,sin,esCunado(Y,X),X,Y) --> [cunado], {cunado(Y,X)}.
 relacion(masc,sin,esSuegro(Y,X),X,Y) --> [suegro], {suegro(Y,X)}.
 
-
+% Femeninas y Singulares
 relacion(fem,sin,esEsposa(Y,X),X,Y) --> [esposa], {esposa(Y,X)}.
 relacion(fem,sin,esMadre(Y,X),X,Y) --> [madre], {madre(Y,X)}.
 relacion(fem,sin,esHermana(Y,X),X,Y) --> [hermana], {hermana(Y,X)}.
@@ -56,6 +69,7 @@ relacion(fem,sin,esSobrina(Y,X),X,Y) --> [sobrina], {sobrina(Y,X)}.
 relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada], {cunada(Y,X)}.
 relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra], {suegra(Y,X)}.
 
+% Masculinas y Plurales
 relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos], {hermano(Y,X),!}.
 relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos], {abuelos(Y,X)}.
 relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos], {hijos(Y,X)}.
@@ -64,6 +78,7 @@ relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios], {tios(Y,X)}.
 relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos], {sobrinos(Y,X)}.
 relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados], {cunados(Y,X)}.
 
+% Femeninas y Plurales
 relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas], {hermanas(Y,X)}.
 relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas], {abuelas(Y,X)}.
 relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas], {hijas(Y,X)}.
@@ -73,7 +88,7 @@ relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas], {sobrinas(Y,X)}.
 relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas], {cunadas(Y,X)}.
 relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras], {suegras(Y,X)}.
 
-% Hechos
+% Hechos (Base de Conocimiento)
 persona(carlitos,masc).
 persona(pancho,masc).
 persona(mane,fem).
@@ -116,7 +131,7 @@ madre(mamama,joy).
 madre(yamir,carlos).
 
 
-% Relaciones
+% Relaciones (definidas de acuerdo con el enunciado)
 esposa(X,Y):- esposo(Y,X).
 hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
 hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
