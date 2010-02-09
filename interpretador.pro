@@ -7,11 +7,11 @@ preguntar --> es_verdad.
 
 % p1 = quien o quienes...
 quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y)}.
-rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).%, {write(R)}.
-rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).%, {write([R])}.
+rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
+rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).
 
 %p2 = es verdad...
-es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,X,Y), {write(R)}.
+es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y), {write(R)}.
 
 persona(P) --> [P].
 
@@ -56,41 +56,22 @@ relacion(fem,sin,esSobrina(Y,X),X,Y) --> [sobrina], {sobrina(Y,X)}.
 relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada], {cunada(Y,X)}.
 relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra], {suegra(Y,X)}.
 
-%% relacion(fem,sin,X,Y) --> [esposa], {esposa(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [madre], {madre(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [hermana], {hermana(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [abuela], {abuela(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [hija], {hija(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [nieta], {nieta(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [tia], {tia(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [sobrina], {sobrina(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [cunada], {cunada(Y,X)}.
-%% relacion(fem,sin,X,Y) --> [suegra], {suegra(Y,X)}.
+relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos], {hermano(Y,X),!}.
+relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos], {abuelos(Y,X)}.
+relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos], {hijos(Y,X)}.
+relacion(masc,plu,sonNietos(Y,X),X,Y) --> [nietos], {nietos(Y,X)}.
+relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios], {tios(Y,X)}.
+relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos], {sobrinos(Y,X)}.
+relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados], {cunados(Y,X)}.
 
-relacion(masc,plu) --> [esposos].
-relacion(masc,plu) --> [hermanos].
-relacion(masc,plu) --> [abuelos].
-relacion(masc,plu) --> [hijos].
-relacion(masc,plu) --> [nietos].
-relacion(masc,plu) --> [tios].
-relacion(masc,plu) --> [sobrinos].
-relacion(masc,plu) --> [cunados].
-relacion(masc,plu) --> [suegros].
-
-relacion(fem,plu) --> [esposas].
-relacion(fem,plu) --> [hermanas].
-relacion(fem,plu) --> [abuelas].
-relacion(fem,plu) --> [hijas].
-relacion(fem,plu) --> [nietas].
-relacion(fem,plu) --> [tias].
-relacion(fem,plu) --> [sobrinas].
-relacion(fem,plu) --> [cunadas].
-relacion(fem,plu) --> [suegras].
-
-
-
-persona(X):- persona(X,masc) ; persona(X,fem).
-
+relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas], {hermanas(Y,X)}.
+relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas], {abuelas(Y,X)}.
+relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas], {hijas(Y,X)}.
+relacion(fem,plu,sonNietas(Y,X),X,Y) --> [nietas], {nietas(Y,X)}.
+relacion(fem,plu,sonTias(Y,X),X,Y) --> [tias], {tias(Y,X)}.
+relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas], {sobrinas(Y,X)}.
+relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas], {cunadas(Y,X)}.
+relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras], {suegras(Y,X)}.
 
 % Hechos
 persona(carlitos,masc).
