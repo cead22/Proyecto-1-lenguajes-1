@@ -8,10 +8,10 @@ preguntar --> es_verdad.
 % p1 = quien o quienes...
 quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y)}.
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).%, {write(R)}.
-rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),['de'],persona(X).%, {write([R])}.
+rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).%, {write([R])}.
 
 %p2 = es verdad...
-es_verdad --> [es],[verdad],[que],persona,verbo(N),articulo(G,N),rec(G,N).
+es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,X,Y), {write(R)}.
 
 persona(P) --> [P].
 
