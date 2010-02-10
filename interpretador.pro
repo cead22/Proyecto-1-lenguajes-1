@@ -124,6 +124,8 @@ padre(papapa,arturo).
 padre(papapa,joy).
 padre(papapa,miguel).
 
+
+madre(mane,lili).
 madre(mane,carlitos).
 madre(mane,pancho).
 madre(laura,jose).
@@ -135,12 +137,26 @@ madre(mamama,joy).
 madre(yamir,carlos).
 
 
-% Relaciones (definidas de acuerdo con el enunciado)
+% Relaciones (definidas de acuerdo con el enunciado,excepto hermano)
 esposa(X,Y):- esposo(Y,X).
-hermano(X,Y):- hermano_papa(X,Y) -> true; hermano_mama(X,Y).
-hermano_papa(X,Y):- persona(X,masc), padre(Z,X), padre(Z,Y), X\=Y.
-hermano_mama(X,Y):- persona(X,masc), madre(Z,X), madre(Z,Y), X\=Y.
-hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
+
+% La relacion herman@ no se definio como se explica en el enunciado
+% ya que se repetian resultados.
+% Se definio la relacion herman@(X,Y) como "X es hermano de Y si
+% Y y X tienen el mismo padre y la misma madre, o solo tienen el
+% mismo padre, o solo tienen la misma madre.
+hermano(X,Y):- 
+	persona(X,masc),
+	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
+	(padre(Z,X), padre(Z,Y), \+ (madre(W,X), madre(W,Y))); % (2)
+	( \+ (padre(Z,X), padre(Z,Y)), madre(W,X), madre(W,Y))), % (3)
+	X\=Y.
+hermana(X,Y):- 
+	persona(X,fem),
+	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
+	(padre(Z,X), padre(Z,Y), \+ (madre(W,X), madre(W,X))); % (2)
+	( \+ (padre(Z,X), padre(Z,Y)), madre(W,X), madre(W,X))), % (3)
+	X\=Y.
 abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
 abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
 hijo(X,Y):- persona(X,masc), (padre(Y,X); madre(Y,X)).
