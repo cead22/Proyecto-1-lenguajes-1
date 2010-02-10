@@ -7,19 +7,23 @@
 % P: persona que aparece en la pregunta
 
 % Preguntas que empiezan con quien/quienes
-preguntar --> quien_quienes.
+%preguntar --> quien_quienes.
 
 % Preguntas que empiezan con es verdad
-preguntar --> es_verdad.
+%preguntar --> es_verdad.
+
+preguntar --> quien_quienes(N,Y),
+	{((N == plu) -> write(Y), nl, fail)
+        ;(write(Y),nl,stop)}.
 
 % Quien/Quienes...
 
-quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y)}.
+quien_quienes(N,Y) --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y).
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).
 
 % Es verdad...
-es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y), {write(R)}.
+es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y).
 
 % Devuelve en P el nombre parseado
 persona(P) --> [P].
@@ -70,23 +74,23 @@ relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada], {cunada(Y,X)}.
 relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra], {suegra(Y,X)}.
 
 % Masculinas y Plurales
-relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos], {hermano(Y,X),!}.
-relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos], {abuelos(Y,X)}.
-relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos], {hijos(Y,X)}.
-relacion(masc,plu,sonNietos(Y,X),X,Y) --> [nietos], {nietos(Y,X)}.
-relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios], {tios(Y,X)}.
-relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos], {sobrinos(Y,X)}.
-relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados], {cunados(Y,X)}.
+relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos], {hermano(Y,X)}.
+relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos], {abuelo(Y,X)}.
+relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos], {hijo(Y,X)}.
+relacion(masc,plu,sonNietos(Y,X),X,Y) --> [nietos], {nieto(Y,X)}.
+relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios], {tio(Y,X)}.
+relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos], {sobrino(Y,X)}.
+relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados], {cunado(Y,X)}.
 
 % Femeninas y Plurales
-relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas], {hermanas(Y,X)}.
-relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas], {abuelas(Y,X)}.
-relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas], {hijas(Y,X)}.
-relacion(fem,plu,sonNietas(Y,X),X,Y) --> [nietas], {nietas(Y,X)}.
-relacion(fem,plu,sonTias(Y,X),X,Y) --> [tias], {tias(Y,X)}.
-relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas], {sobrinas(Y,X)}.
-relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas], {cunadas(Y,X)}.
-relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras], {suegras(Y,X)}.
+relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas], {hermana(Y,X)}.
+relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas], {abuela(Y,X)}.
+relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas], {hija(Y,X)}.
+relacion(fem,plu,sonNietas(Y,X),X,Y) --> [nietas], {nieta(Y,X)}.
+relacion(fem,plu,sonTias(Y,X),X,Y) --> [tias], {tia(Y,X)}.
+relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas], {sobrina(Y,X)}.
+relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas], {cunada(Y,X)}.
+relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras], {suegra(Y,X)}.
 
 % Hechos (Base de Conocimiento)
 persona(carlitos,masc).
@@ -133,7 +137,9 @@ madre(yamir,carlos).
 
 % Relaciones (definidas de acuerdo con el enunciado)
 esposa(X,Y):- esposo(Y,X).
-hermano(X,Y):- persona(X,masc), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
+hermano(X,Y):- hermano_papa(X,Y) -> true; hermano_mama(X,Y).
+hermano_papa(X,Y):- persona(X,masc), padre(Z,X), padre(Z,Y), X\=Y.
+hermano_mama(X,Y):- persona(X,masc), madre(Z,X), madre(Z,Y), X\=Y.
 hermana(X,Y):- persona(X,fem), ((padre(Z,X), padre(Z,Y)); (madre(Z,X), madre(Z,Y))), X\=Y.
 abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
 abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
