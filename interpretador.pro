@@ -129,7 +129,6 @@ padre(papapa,kiko).
 padre(papapa,arturo).
 padre(papapa,joy).
 padre(papapa,miguel).
-padre(pax,papapa).
 
 madre(mane,carlitos).
 madre(mane,pancho).
@@ -153,7 +152,7 @@ madre(yamir,carlos).
 
 hermano(X,Y):- 
 	persona(X,masc),
-	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
+	((padre(Z,X),padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
 	(padre(Z,X), padre(Z,Y), \+ (madre(W,X), madre(W,Y))); % (2)
 	( \+ (padre(Z,X), padre(Z,Y)), madre(W,X), madre(W,Y))), % (3)
 	X\=Y.
@@ -170,83 +169,62 @@ esposa(X,Y):-
 
 abuelo(X,Y):-
 	padre(X,Z),
-	(padre(Z,Y);
-	    madre(Z,Y)).
+	(padre(Z,Y); madre(Z,Y)).
 
 abuela(X,Y):-
 	madre(X,Z),
-	(madre(Z,Y);
-	    padre(Z,Y)).
+	(madre(Z,Y); padre(Z,Y)).
 
 hijo(X,Y):- 
 	persona(X,masc),
-	(padre(Y,X);
-	    madre(Y,X)).
+	(padre(Y,X); madre(Y,X)).
 
 hija(X,Y):-
 	persona(X,fem),
-	(padre(Y,X);
-	    madre(Y,X)).
+	(padre(Y,X);  madre(Y,X)).
 
 nieto(X,Y):- 
 	hijo(X,Z),
-	(hijo(Z,Y);
-	    hija(Z,Y)).
+	(hijo(Z,Y); hija(Z,Y)).
 
 nieta(X,Y):-
 	hija(X,Z),
-	(hijo(Z,Y);
-	    hija(Z,Y)).
+	(hijo(Z,Y); hija(Z,Y)).
 
 tio(X,Y):-
 	hermano(X,Z),
-	(padre(Z,Y) ;
-	    madre(Z,Y)).
+	(padre(Z,Y); madre(Z,Y)).
 
 tia(X,Y):- 
 	hermana(X,Z),
-	(padre(Z,Y) ;
-	    madre(Z,Y)).
+	(padre(Z,Y); madre(Z,Y)).
 
 sobrino(X,Y):-
 	hijo(X,Z),
-	(hermano(Z,Y);
-	    hermana(Z,Y)).
+	(hermano(Z,Y); hermana(Z,Y)).
 
 sobrina(X,Y):-
 	hija(X,Z),
-	(hermano(Z,Y);
-	    hermana(Z,Y)).
+	(hermano(Z,Y); hermana(Z,Y)).
 
 cunado(X,Y):-
-	(esposo(X,Z),
-	(hermano(Y,Z);
-	    hermana(Y,Z))) ;
-	    (hermano(X,H),
-	    (esposo(H,Y);
-		esposa(H,Y))).
+	(esposo(X,Z),(hermano(Y,Z); hermana(Y,Z)));
+	(hermano(X,H), (esposo(H,Y);esposa(H,Y))).
 
 cunada(X,Y):- 
-	(esposa(X,Z),
-	(hermano(Y,Z);
-	    hermana(Y,Z)));
-	    (hermana(X,H),
-	    (esposo(H,Y);
-		esposa(H,Y))).
+	(esposa(X,Z), (hermano(Y,Z); hermana(Y,Z)));
+	(hermana(X,H), (esposo(H,Y); esposa(H,Y))).
 
 suegro(X,Y):-
 	padre(X,Z),
-	(esposo(Z,Y);
-	    esposa(Z,Y)).
+	(esposo(Z,Y); esposa(Z,Y)).
 
 suegra(X,Y):-
 	madre(X,Z),
-	(esposo(Z,Y);
-	    esposa(Z,Y)).
+	(esposo(Z,Y); esposa(Z,Y)).
 
 % Utilizada para invertir la lista
 % de relaciones encadenadas
-
 invertir([],[]). 
 invertir([H|T],L):-
 	invertir(T,R), concatenar(R,[H],L).
@@ -264,51 +242,62 @@ eval([],R):-
 eval([H|T],_R):-
 
 	% Si se lee de la lista 'esEsposo' 
-%% 	H = esEsposo(A,B)  -> findall(C,esposo(C,B),[A|D]), eval(T,A);
-%% 	H = esPadre(A,B)   -> findall(C,padre(C,B),[A|D]), eval(T,A);
-%% 	H = esHermano(A,B) -> findall(C,hermano(C,B),[A|D]), eval(T,A);
-%% 	H = esAbuelo(A,B)  -> findall(C,abuelo(C,B),[A|D]), eval(T,A);
-%% 	H = esHijo(A,B)    -> findall(C,hijo(C,B),[A|D]), eval(T,A);
-%% 	H = esNieto(A,B)   -> findall(C,nieto(C,B),[A|D]), eval(T,A);
-%% 	H = esSobrino(A,B) -> findall(C,sobrino(C,B),[A|D]), eval(T,A);
-%% 	H = esCunado(A,B)  -> findall(C,cunado(C,B),[A|D]), eval(T,A);
-%% 	H = esSuegro(A,B)  -> findall(C,suegro(C,B),[A|D]), eval(T,A);
 
-	H = esEsposo(A,B)  -> esposa(A,B), eval(T,A);
-	H = esPadre(A,B)   -> madre(A,B), eval(T,A);
+	H = esEsposo(A,B)  -> esposo(A,B),  eval(T,A);
+	H = esPadre(A,B)   -> padre(A,B),   eval(T,A);
 	H = esHermano(A,B) -> hermano(A,B), eval(T,A);
-	H = esAbuelo(A,B)  -> abuelo(A,B), eval(T,A);
-
-	H = esHijo(A,B)    -> hijo(A,B), eval(T,A);
-
-	H = sonHijos(A,B)    -> hijo(A,B), eval(T,A);
-
-	H = esNieto(A,B)   -> nieto(A,B), eval(T,A);
+	H = esAbuelo(A,B)  -> abuelo(A,B),  eval(T,A);
+	H = esHijo(A,B)    -> hijo(A,B),    eval(T,A);
+	H = esNieto(A,B)   -> nieto(A,B),   eval(T,A);
 	H = esSobrino(A,B) -> sobrino(A,B), eval(T,A);
-	H = esCunado(A,B)  -> cunado(A,B), eval(T,A);
-	H = esSuegro(A,B)  -> suegro(A,B), eval(T,A);
+	H = esCunado(A,B)  -> cunado(A,B),  eval(T,A);
+	H = esSuegro(A,B)  -> suegro(A,B),  eval(T,A);
 
-	H = esEsposa(A,B)  -> esposa(A,B), eval(T,A);
-	H = esMadre(A,B)   -> findall(C,madre(C,B),[A|D]), eval(T,A);
+	H = esEsposa(A,B)  -> esposa(A,B),  eval(T,A);
+	H = esMadre(A,B)   -> madre(A,B),   eval(T,A);
 	H = esHermana(A,B) -> hermana(A,B), eval(T,A);
-	H = esAbuela(A,B)  -> abuela(A,B), eval(T,A);
-	H = esHija(A,B)    -> hija(A,B), eval(T,A);
-	H = esNieta(A,B)   -> nieta(A,B), eval(T,A);
+	H = esAbuela(A,B)  -> abuela(A,B),  eval(T,A);
+	H = esHija(A,B)    -> hija(A,B),    eval(T,A);
+	H = esNieta(A,B)   -> nieta(A,B),   eval(T,A);
 	H = esSobrina(A,B) -> sobrina(A,B), eval(T,A);
-	H = esCunada(A,B)  -> cunada(A,B), eval(T,A);
-	H = esSuegra(A,B)  -> suegra(A,B), eval(T,A);
+	H = esCunada(A,B)  -> cunada(A,B),  eval(T,A);
+	H = esSuegra(A,B)  -> suegra(A,B),  eval(T,A);
 
-	H = sonHermanos(A,B) -> findall(C,hermano(C,B),A), eval(T,A);
-	H = sonAbuelos(A,B)  -> findall(C,abuelo(C,B),A), eval(T,A);
-	%H = sonHijos(A,B)    -> findall(C,hijo(C,B),A), eval(T,A);
-	H = sonNietos(A,B)   -> findall(C,nieto(C,B),A), eval(T,A);
-	H = sonSobrinos(A,B) -> findall(C,sobrino(C,B),A), eval(T,A);
-	H = sonCunados(A,B)  -> findall(C,cunado(C,B),A), eval(T,A);
+	% Si T es la lista vacia, estamos en la primera relacion
+	% de la lista de relaciones encadenadas, y se formatea
+	% la respuesta de acuerdo con el N (plu, sin) de la pregunta.
+        length(T,0) -> 
+	(
+ 	  H = sonHermanos(A,B) -> findall(C,hermano(C,B),A), eval(T,A);
+ 	  H = sonAbuelos(A,B)  -> findall(C,abuelo(C,B),A),  eval(T,A);
+ 	  H = sonHijos(A,B)    -> findall(C,hijo(C,B),A),    eval(T,A);
+ 	  H = sonNietos(A,B)   -> findall(C,nieto(C,B),A),   eval(T,A);
+ 	  H = sonSobrinos(A,B) -> findall(C,sobrino(C,B),A), eval(T,A);
+ 	  H = sonCunados(A,B)  -> findall(C,cunado(C,B),A),  eval(T,A);
 
-	H = sonHermanas(A,B) -> findall(C,hermana(C,B),A), eval(T,A);
-	H = sonAbuelas(A,B)  -> findall(C,abuela(C,B),A), eval(T,A);
-	H = sonHijas(A,B)    -> findall(C,hija(C,B),A), eval(T,A);
-	H = sonNietas(A,B)   -> findall(C,nieta(C,B),A), eval(T,A);
-	H = sonSobrinas(A,B) -> findall(C,sobrina(C,B),A), eval(T,A);
-	H = sonCunadas(A,B)  -> findall(C,cunada(C,B),A), eval(T,A);
-	true.
+ 	  H = sonHermanas(A,B) -> findall(C,hermana(C,B),A), eval(T,A);
+ 	  H = sonAbuelas(A,B)  -> findall(C,abuela(C,B),A),  eval(T,A);
+ 	  H = sonHijas(A,B)    -> findall(C,hija(C,B),A),    eval(T,A);
+ 	  H = sonNietas(A,B)   -> findall(C,nieta(C,B),A),   eval(T,A);
+ 	  H = sonSobrinas(A,B) -> findall(C,sobrina(C,B),A), eval(T,A);
+ 	  H = sonCunadas(A,B)  -> findall(C,cunada(C,B),A),  eval(T,A);
+	  true
+        )
+
+        % else
+       ;(
+	  H = sonHermanos(A,B) -> hermano(A,B), eval(T,A);
+ 	  H = sonAbuelos(A,B)  -> abuelo(A,B),  eval(T,A);
+ 	  H = sonHijos(A,B)    -> hijo(A,B),    eval(T,A);
+ 	  H = sonNietos(A,B)   -> nieto(A,B),   eval(T,A);
+ 	  H = sonSobrinos(A,B) -> sobrino(A,B), eval(T,A);
+ 	  H = sonCunados(A,B)  -> cunado(A,B),  eval(T,A);
+	  
+ 	  H = sonHermanas(A,B) -> hermana(A,B), eval(T,A);
+ 	  H = sonAbuelas(A,B)  -> abuela(A,B),  eval(T,A);
+ 	  H = sonHijas(A,B)    -> hija(A,B),    eval(T,A);
+ 	  H = sonNietas(A,B)   -> nieta(A,B),   eval(T,A);
+ 	  H = sonSobrinas(A,B) -> sobrina(A,B), eval(T,A);
+ 	  H = sonCunadas(A,B)  -> cunada(A,B),  eval(T,A);
+ 	  true
+        ).
