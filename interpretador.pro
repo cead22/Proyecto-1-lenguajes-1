@@ -8,19 +8,18 @@
 
 % Preguntas que empiezan con quien/quienes
 % Si se esta haciendo la pregunta en plural (quienes son...)
-% entonces con la funcion fail se obliga a hacer backtracking
+% entonces con la funcion fail se oliga a hacer backtracking
 % para buscar todos los resultados sin tener que escribir ;
 % en la consola.
 % En caso contrario se detiene la ejecucion con stop luego de
 % devolver el primer resultado 
-preguntar --> quien_quienes.
+preguntar --> quien_quienes(N,Y,L), { invierte(L,Q), eval(Q,Z)}.
 
 % Preguntas que empiezan con es verdad
-preguntar --> es_verdad.
-
+preguntar --> es_verdad(L), {invierte(L,Q), eval(Q,Z)}.
 
 % Quien/Quienes...
-quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y),nl}.
+quien_quienes(N,Y,L) --> quien(N),verbo(N),articulo(G,N),rec(G,N,L,_X,Y), {write(L)}.
 
 % rec permite parsear preguntas 'recursivas'
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
@@ -29,7 +28,7 @@ rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).
 
 % Es verdad...
-es_verdad --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y).
+es_verdad(R) --> [es],[verdad],[que],persona(Y),verbo(N),articulo(G,N),rec(G,N,R,_X,Y).%, {write(R)}.
 
 % Devuelve en P el nombre parseado
 persona(P) --> [P].
@@ -56,47 +55,47 @@ articulo(fem,plu) --> [las].
 % ir calculando a medida que se parsea
 
 % Masculinas y Singulares
-relacion(masc,sin,esEsposo(Y,X),X,Y) --> [esposo], {esposo(Y,X)}.
-relacion(masc,sin,esPadre(Y,X),X,Y) --> [padre], {padre(Y,X)}.
-relacion(masc,sin,esHermano(Y,X),X,Y) --> [hermano], {hermano(Y,X)}.
-relacion(masc,sin,esAbuelo(Y,X),X,Y) --> [abuelo], {abuelo(Y,X)}.
-relacion(masc,sin,esHijo(Y,X),X,Y) --> [hijo], {hijo(Y,X)}.
-relacion(masc,sin,esNieto(Y,X),X,Y) --> [nieto], {nieto(Y,X)}.
-relacion(masc,sin,esTio(Y,X),X,Y) --> [tio], {tio(Y,X)}.
-relacion(masc,sin,esSobrino(Y,X),X,Y) --> [sobrino], {sobrino(Y,X)}.
-relacion(masc,sin,esCunado(Y,X),X,Y) --> [cunado], {cunado(Y,X)}.
-relacion(masc,sin,esSuegro(Y,X),X,Y) --> [suegro], {suegro(Y,X)}.
+relacion(masc,sin,esEsposo(Y,X),X,Y) --> [esposo].%, {esposo(Y,X)}.
+relacion(masc,sin,esPadre(Y,X),X,Y) --> [padre].%, {padre(Y,X)}.
+relacion(masc,sin,esHermano(Y,X),X,Y) --> [hermano].%, {hermano(Y,X)}.
+relacion(masc,sin,esAbuelo(Y,X),X,Y) --> [abuelo].%, {abuelo(Y,X)}.
+relacion(masc,sin,esHijo(Y,X),X,Y) --> [hijo].%, {hijo(Y,X)}.
+relacion(masc,sin,esNieto(Y,X),X,Y) --> [nieto].%, {nieto(Y,X)}.
+relacion(masc,sin,esTio(Y,X),X,Y) --> [tio].%, {tio(Y,X)}.
+relacion(masc,sin,esSobrino(Y,X),X,Y) --> [sobrino].%, {sobrino(Y,X)}.
+relacion(masc,sin,esCunado(Y,X),X,Y) --> [cunado].%, {cunado(Y,X)}.
+relacion(masc,sin,esSuegro(Y,X),X,Y) --> [suegro].%, {suegro(Y,X)}.
 
 % Femeninas y Singulares
-relacion(fem,sin,esEsposa(Y,X),X,Y) --> [esposa], {esposa(Y,X)}.
-relacion(fem,sin,esMadre(Y,X),X,Y) --> [madre], {madre(Y,X)}.
-relacion(fem,sin,esHermana(Y,X),X,Y) --> [hermana], {hermana(Y,X)}.
-relacion(fem,sin,esAbuela(Y,X),X,Y) --> [abuela], {abuela(Y,X)}.
-relacion(fem,sin,esHija(Y,X),X,Y) --> [hija], {hija(Y,X)}.
-relacion(fem,sin,esNieta(Y,X),X,Y) --> [nieta], {nieta(Y,X)}.
-relacion(fem,sin,esTia(Y,X),X,Y) --> [tia], {tia(Y,X)}.
-relacion(fem,sin,esSobrina(Y,X),X,Y) --> [sobrina], {sobrina(Y,X)}.
-relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada], {cunada(Y,X)}.
-relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra], {suegra(Y,X)}.
+relacion(fem,sin,esEsposa(Y,X),X,Y) --> [esposa].%, {esposa(Y,X)}.
+relacion(fem,sin,esMadre(Y,X),X,Y) --> [madre].%, {madre(Y,X)}.
+relacion(fem,sin,esHermana(Y,X),X,Y) --> [hermana].%, {hermana(Y,X)}.
+relacion(fem,sin,esAbuela(Y,X),X,Y) --> [abuela].%, {abuela(Y,X)}.
+relacion(fem,sin,esHija(Y,X),X,Y) --> [hija].%, {hija(Y,X)}.
+relacion(fem,sin,esNieta(Y,X),X,Y) --> [nieta].%, {nieta(Y,X)}.
+relacion(fem,sin,esTia(Y,X),X,Y) --> [tia].%, {tia(Y,X)}.
+relacion(fem,sin,esSobrina(Y,X),X,Y) --> [sobrina].%, {sobrina(Y,X)}.
+relacion(fem,sin,esCunada(Y,X),X,Y) --> [cunada].%, {cunada(Y,X)}.
+relacion(fem,sin,esSuegra(Y,X),X,Y) --> [suegra].%, {suegra(Y,X)}.
 
 % Masculinas y Plurales
-relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos], {hermano(Y,X)}.
-relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos], {abuelo(Y,X)}.
-relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos], {hijo(Y,X)}.
-relacion(masc,plu,sonNietos(Y,X),X,Y) --> [nietos], {nieto(Y,X)}.
-relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios], {tio(Y,X)}.
-relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos], {sobrino(Y,X)}.
-relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados], {cunado(Y,X)}.
+relacion(masc,plu,sonHermanos(Y,X),X,Y) --> [hermanos].%, {hermano(Y,X)}.
+relacion(masc,plu,sonAbuelos(Y,X),X,Y) --> [abuelos].%, {abuelo(Y,X)}.
+relacion(masc,plu,sonHijos(Y,X),X,Y) --> [hijos].%, {hijo(Y,X)}.
+relacion(masc,plu,sonNietos(Y,X),X,Y) --> [nietos].%, {nieto(Y,X)}.
+relacion(masc,plu,sonTios(Y,X),X,Y) --> [tios].%, {tio(Y,X)}.
+relacion(masc,plu,sonSobrinos(Y,X),X,Y) --> [sobrinos].%, {sobrino(Y,X)}.
+relacion(masc,plu,sonCunados(Y,X),X,Y) --> [cunados].%, {cunado(Y,X)}.
 
 % Femeninas y Plurales
-relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas], {hermana(Y,X)}.
-relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas], {abuela(Y,X)}.
-relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas], {hija(Y,X)}.
-relacion(fem,plu,sonNietas(Y,X),X,Y) --> [nietas], {nieta(Y,X)}.
-relacion(fem,plu,sonTias(Y,X),X,Y) --> [tias], {tia(Y,X)}.
-relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas], {sobrina(Y,X)}.
-relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas], {cunada(Y,X)}.
-relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras], {suegra(Y,X)}.
+relacion(fem,plu,sonHermanas(Y,X),X,Y) --> [hermanas].%, {hermana(Y,X)}.
+relacion(fem,plu,sonAbuelas(Y,X),X,Y) --> [abuelas].%, {abuela(Y,X)}.
+relacion(fem,plu,sonHijas(Y,X),X,Y) --> [hijas].%, {hija(Y,X)}.
+relacion(fem,plu,sonNietas(Y,X),X,Y) --> [nietas].%, {nieta(Y,X)}.
+relacion(fem,plu,sonTias(Y,X),X,Y) --> [tias].%, {tia(Y,X)}.
+relacion(fem,plu,sonSobrinas(Y,X),X,Y) --> [sobrinas].%, {sobrina(Y,X)}.
+relacion(fem,plu,sonCunadas(Y,X),X,Y) --> [cunadas].%, {cunada(Y,X)}.
+relacion(fem,plu,sonSuegras(Y,X),X,Y) --> [suegras].%, {suegra(Y,X)}.
 
 % Hechos (Base de Conocimiento)
 persona(carlitos,masc).
@@ -130,6 +129,7 @@ padre(papapa,kiko).
 padre(papapa,arturo).
 padre(papapa,joy).
 padre(papapa,miguel).
+padre(pax,papapa).
 
 madre(mane,carlitos).
 madre(mane,pancho).
@@ -148,6 +148,10 @@ madre(yamir,carlos).
 % Se definio la relacion herman@(X,Y) como "X es hermano de Y si
 % Y y X tienen el mismo padre y la misma madre (1), o solo tienen el
 % mismo padre (2), o solo tienen la misma madre (3).
+
+
+hermano(X,[H|T]):- 
+	findall(Z1,hermano(Z1,H),X),findall(Z2,hermano(Z2,T),Y).%, concat(L1,L2,X).
 
 hermano(X,Y):- 
 	persona(X,masc),
@@ -176,3 +180,47 @@ cunado(X,Y):- (esposo(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermano(X,H), (espo
 cunada(X,Y):- (esposa(X,Z), (hermano(Y,Z); hermana(Y,Z))) ; (hermana(X,H), (esposo(H,Y); esposa(H,Y))).
 suegro(X,Y):- padre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
 suegra(X,Y):- madre(X,Z), (esposo(Z,Y); esposa(Z,Y)).
+
+
+invierte([],[]). 
+invierte([H|T],L):- invierte(T,R), concat(R,[H],L).
+
+concat([],L,L). 
+concat([X|L1],L2,[X|L3]):- concat(L1,L2,L3).
+
+eval([],R):- write(R).
+eval([H|T],R):-
+	H = esEsposo(A,B) -> findall(C,esposo(C,B),[A|D]), eval(T,A);
+	H = esPadre(A,B) -> padre(A,B), eval(T,A);
+	H = esHermano(A,B) -> findall(C,hermano(C,B),[A|D]), eval(T,A);
+	H = esAbuelo(A,B) -> abuelo(A,B), eval(T,A);
+	H = esHijo(A,B) -> findall(C,hijo(C,B),[A|D]), eval(T,A);
+	H = esNieto(A,B) -> nieto(A,B), eval(T,A);
+	H = esSobrino(A,B) -> sobrino(A,B), eval(T,A);
+	H = esCunado(A,B) -> cunado(A,B), eval(T,A);
+	H = esSuegro(A,B) -> suegro(A,B), eval(T,A);
+
+	H = esEsposa(A,B) -> esposa(A,B), eval(T,A);
+	H = esMadre(A,B) -> findall(C,madre(C,B),[A|D]), eval(T,A);
+	H = esHermana(A,B) -> hermana(A,B), eval(T,A);
+	H = esAbuela(A,B) -> abuela(A,B), eval(T,A);
+	H = esHija(A,B) -> hija(A,B), eval(T,A);
+	H = esNieta(A,B) -> nieta(A,B), eval(T,A);
+	H = esSobrina(A,B) -> sobrina(A,B), eval(T,A);
+	H = esCunada(A,B) -> cunada(A,B), eval(T,A);
+	H = esSuegra(A,B) -> suegra(A,B), eval(T,A);
+
+	H = sonHermanos(A,B) -> findall(C,hermano(C,B),A), eval(T,A);
+	H = sonAbuelos(A,B) -> findall(C,abuelo(C,B),A), eval(T,A);
+	H = sonHijos(A,B) -> findall(C,hijo(C,B),A), eval(T,A);
+	H = sonNietos(A,B) -> findall(C,nieto(C,B),A), eval(T,A);
+	H = sonSobrinos(A,B) -> findall(C,sobrino(C,B),A), eval(T,A);
+	H = sonCunados(A,B) -> findall(C,cunado(C,B),A), eval(T,A);
+
+	H = sonHermanas(A,B) -> findall(C,hermana(C,B),A), eval(T,A);
+	H = sonAbuelas(A,B) -> findall(C,abuela(C,B),A), eval(T,A);
+	H = sonHijas(A,B) -> findall(C,hija(C,B),A), eval(T,A);
+	H = sonNietas(A,B) -> findall(C,nieta(C,B),A), eval(T,A);
+	H = sonSobrinas(A,B) -> findall(C,sobrina(C,B),A), eval(T,A);
+	H = sonCunadas(A,B) -> findall(C,cunada(C,B),A), eval(T,A);
+	true.
