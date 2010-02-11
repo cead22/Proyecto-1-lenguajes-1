@@ -7,19 +7,25 @@
 % P: persona que aparece en la pregunta
 
 % Preguntas que empiezan con quien/quienes
-%preguntar --> quien_quienes.
+% Si se esta haciendo la pregunta en plural (quienes son...)
+% entonces con la funcion fail se obliga a hacer backtracking
+% para buscar todos los resultados sin tener que escribir ;
+% en la consola.
+% En caso contrario se detiene la ejecucion con stop luego de
+% devolver el primer resultado 
+preguntar --> quien_quienes.
 
 % Preguntas que empiezan con es verdad
-%preguntar --> es_verdad.
+preguntar --> es_verdad.
 
-preguntar --> quien_quienes(N,Y),
-	{((N == plu) -> write(Y), nl, fail)
-        ;(write(Y),nl,stop)}.
 
 % Quien/Quienes...
+quien_quienes --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y), {write(Y),nl}.
 
-quien_quienes(N,Y) --> quien(N),verbo(N),articulo(G,N),rec(G,N,_L,_X,Y).
+% rec permite parsear preguntas 'recursivas'
 rec(G,N,[R|L],X,Y) --> relacion(G,N,R,Z,Y),conector(GG,NN),rec(GG,NN,L,X,Z).
+
+% en este momento termina la pregunta
 rec(G,N,[R],X,Y) --> relacion(G,N,R,X,Y),[de],persona(X).
 
 % Es verdad...
@@ -107,6 +113,7 @@ persona(laura,fem).
 persona(papapa,masc).
 persona(mamama,fem).
 persona(miguel,masc).
+persona(carlos,masc).
 
 esposo(papapa,mamama).
 esposo(kiko,mane).
@@ -124,8 +131,6 @@ padre(papapa,arturo).
 padre(papapa,joy).
 padre(papapa,miguel).
 
-
-madre(mane,lili).
 madre(mane,carlitos).
 madre(mane,pancho).
 madre(laura,jose).
@@ -136,15 +141,14 @@ madre(mamama,miguel).
 madre(mamama,joy).
 madre(yamir,carlos).
 
-
-% Relaciones (definidas de acuerdo con el enunciado,excepto hermano)
-esposa(X,Y):- esposo(Y,X).
+% Relaciones que devuelven 1 resultado (definidas de acuerdo con el enunciado, excepto herman@)
 
 % La relacion herman@ no se definio como se explica en el enunciado
 % ya que se repetian resultados.
 % Se definio la relacion herman@(X,Y) como "X es hermano de Y si
-% Y y X tienen el mismo padre y la misma madre, o solo tienen el
-% mismo padre, o solo tienen la misma madre.
+% Y y X tienen el mismo padre y la misma madre (1), o solo tienen el
+% mismo padre (2), o solo tienen la misma madre (3).
+
 hermano(X,Y):- 
 	persona(X,masc),
 	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
@@ -153,10 +157,11 @@ hermano(X,Y):-
 	X\=Y.
 hermana(X,Y):- 
 	persona(X,fem),
-	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y)); % (1)
-	(padre(Z,X), padre(Z,Y), \+ (madre(W,X), madre(W,X))); % (2)
-	( \+ (padre(Z,X), padre(Z,Y)), madre(W,X), madre(W,X))), % (3)
+	((padre(Z,X), padre(Z,Y), madre(W,X), madre(W,Y));
+	(padre(Z,X), padre(Z,Y), \+ (madre(W,X), madre(W,X)));
+	( \+ (padre(Z,X), padre(Z,Y)), madre(W,X), madre(W,X))),
 	X\=Y.
+esposa(X,Y):- esposo(Y,X).
 abuelo(X,Y):- padre(X,Z), (padre(Z,Y); madre(Z,Y)).
 abuela(X,Y):- madre(X,Z), (madre(Z,Y); padre(Z,Y)).
 hijo(X,Y):- persona(X,masc), (padre(Y,X); madre(Y,X)).
